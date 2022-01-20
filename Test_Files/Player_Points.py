@@ -9,8 +9,6 @@ from espn_api.football import League
 from espn_api.football import Player 
 from espn_api.football import BoxPlayer
 
-from Team_Class import Team_Class
-
 league = League(league_id=51591979, year=2021, espn_s2='AEBjEqbBxjZIt45ocr9eFgbp%2FBkWyQmzCIuNSsyI4jmQqhhxc2s5mnRJxHr5QOc576BaF1ULvFqeeTZoM%2FHg%2FS%2FHS1beH7XX8aP4uLisyHbr1SkANX42Es7E%2BZuq%2FXqKmSDMSVTYTMF3ctf%2FKmVMapTGJNkADWmsEoTHoIT8QTdj80aENnYeygi7DGqIDjrcCbLVfcWxUWp3jKqxQRP1744e88mki7wkLuNydGGonvYuPlrfcsDCEFY%2FVpkoq9lc%2FKm0mBdoWAiWsMeb7B3w5c25',swid='{7EDF6E52-328E-4864-9E53-6190364DDF91}')
 
 #This function returns the points that a player scored based on the league, team, player, and gameweek
@@ -20,18 +18,6 @@ def Player_Points(league_info, team_num, roster_num, gameweek):
 	player_name = league_info.teams[team_num].roster[roster_num].name
 	return league_info.teams[team_num].roster[roster_num].stats[gameweek]['points']
 
-# x = Player_Points(league, 0, 0, 17)
-
-# print (player_name + ": " + str(x))
-
-#This function simply spits out whether you made the right play or not between 2 guys
-def Player_Points_Comparison(player_1_pts, player_2_pts):
-	if player_1_pts >= player_2_pts:
-		return "You made the right play!"
-	else:
-		return "You should've started the other guy!"
-
-# print (Player_Points_Comparison(5,3))
 
 #Sorts players into a dictionary or positions
 def Position_Check(player_list):
@@ -48,11 +34,6 @@ def Position_Check(player_list):
 				position_dict[key].append(x)
 
 	return position_dict
-
-#print (league.box_scores(12)[0].home_lineup)
-# print (league.box_scores(12)[0].home_lineup[5].name)
-# print (league.box_scores(12)[0].home_lineup[5].points)
-# print (league.box_scores(12)[0].home_lineup[5].slot_position)
 
 #Compare the bench performance of positions to starters
 def QB_Comparison(team):
@@ -73,13 +54,18 @@ def QB_Comparison(team):
 		if highest_scorer == None or p.points > highest_scorer.points:
 			highest_scorer = p
 
-	difference = highest_scorer.points - starter.points
+	#Calculate the difference and format to 2 decimals
+	difference = float("{:.2f}".format(highest_scorer.points - starter.points))
 
-	if (highest_scorer.slot_position == 'BE') and (difference != 0):
-		print ('You made the wrong move: ' + highest_scorer.name + " scored " + str(difference) + " more points than " + starter.name)
+	return difference
 
-	elif highest_scorer == starter:
-		print ('You made the right play with ' + starter.name + ' at ' + starter.slot_position)
+	# if (highest_scorer.slot_position == 'BE') and (difference != 0):
+	# 	result = difference
+
+	# elif highest_scorer == starter:
+	# 	result = [highest_scorer, 0, "Right"]
+
+	return result
 
 def DST_Comparison(team):
 
@@ -99,13 +85,18 @@ def DST_Comparison(team):
 		if highest_scorer == None or p.points > highest_scorer.points:
 			highest_scorer = p
 
-	difference = highest_scorer.points - starter.points
+	#Calculate the difference and format to 2 decimals
+	difference = float("{:.2f}".format(highest_scorer.points - starter.points))
 
-	if (highest_scorer.slot_position == 'BE') and (difference != 0):
-		print ('You made the wrong move: ' + highest_scorer.name + " scored " + str(difference) + " more points than " + starter.name)
+	return difference
 
-	elif highest_scorer == starter:
-		print ('You made the right play with ' + starter.name + ' at ' + starter.slot_position)
+	# if (highest_scorer.slot_position == 'BE') and (difference != 0):
+	# 	result = [highest_scorer, difference, "Wrong"]
+
+	# elif highest_scorer == starter:
+	# 	result = [highest_scorer, 0, "Right"]
+
+	# return result
 
 def K_Comparison(team):
 
@@ -125,13 +116,18 @@ def K_Comparison(team):
 		if highest_scorer == None or p.points > highest_scorer.points:
 			highest_scorer = p
 
-	difference = highest_scorer.points - starter.points
+	#Calculate the difference and format to 2 decimals
+	difference = float("{:.2f}".format(highest_scorer.points - starter.points))
 
-	if (highest_scorer.slot_position == 'BE') and (difference != 0):
-		print ('You made the wrong move: ' + highest_scorer.name + " scored " + str(difference) + " more points than " + starter.name)
+	return difference
 
-	elif highest_scorer == starter:
-		print ('You made the right play with ' + starter.name + ' at ' + starter.slot_position)
+	# if (highest_scorer.slot_position == 'BE') and (difference != 0):
+	# 	result = [highest_scorer, difference, "Wrong"]
+
+	# elif highest_scorer == starter:
+	# 	result = [highest_scorer, 0, "Right"]
+
+	# return result
 
 def Flex_Comparison(team):
 
@@ -189,47 +185,63 @@ def Flex_Comparison(team):
 
 	#Put the rest into a list of their own
 
-	count = 2
+	The_rest = All_RB[2:] + All_WR[2:] + All_TE[1:]
 
-	while count < len(All_RB):
-		The_rest.append(All_RB[count])
-		count = count + 1
+	The_best = All_RB[:2] + All_WR[:2]
 
-	count = 2
-
-	while count < len(All_WR):
-		The_rest.append(All_WR[count])
-		count = count + 1
-
-	count = 1
-
-	while count < len(All_TE):
-		The_rest.append(All_TE[count])
-		count = count + 1
+	The_best.append(All_TE[0])
 
 	#Sort that list to get the top scorer
 	The_rest.sort(key=lambda x: x.points, reverse=True)
 
 	best_of_the_rest = The_rest[0]
 
-	#next thing to do is to show if the players were played in the right positions
+	The_best.append(best_of_the_rest)
+
+	#Calculates the total points in a list of players
+	def Position_Calc(Position_List):
+		total_score = 0.0
+
+		for p in Position_List:
+			total_score = total_score + p.points
+
+		return total_score
 
 
-# QB_Comparison(league.box_scores(12)[0].home_lineup)
+	Flex_Position_Differential = Position_Calc(The_best) - Position_Calc(starters)
 
-# TE_Comparison(league.box_scores(12)[0].home_lineup)
-
-# DST_Comparison(league.box_scores(12)[0].home_lineup)
-
-# K_Comparison(league.box_scores(12)[0].home_lineup)
-
-Flex_Comparison(league.box_scores(13)[0].home_lineup)
+	return float("{:.2f}".format(Flex_Position_Differential))
 
 
+def Total_Points_Left_On_Bench(team):
+	QB = QB_Comparison(team)
+	Flex = Flex_Comparison(team)
+	DST = DST_Comparison(team)
+	K = K_Comparison(team)
+
+	total = QB + Flex + DST + K
+	return float("{:.2f}".format(total))
+
+# week = int(input("Select a game week: "))
+# matchup = int(input("Select a matchup by # (0-5): "))
+# home_away = input("Home or away team?: ")
+
+# check = False
+
+# while check == False:
+
+# 	if home_away == "home":
+# 		specified_team = specified_team = league.box_scores(week)[matchup].home_lineup
+# 		check = True
+# 		continue
+
+# 	elif home_away == "away":
+# 		specified_team = specified_team = league.box_scores(week)[matchup].away_lineup
+# 		check = True
+# 		continue
+
+# 	home_away = input("Please type home or away: ")
 
 
 
-# for x in league.box_scores(12)[0].home_lineup:
-# 	print(x.name)
-# 	print ("eligible for : "+ x.position)
-# 	print ("played at: "+ x.slot_position)
+# print (Total_Points_Left_On_Bench(specified_team))
