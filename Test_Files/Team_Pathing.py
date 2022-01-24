@@ -20,6 +20,7 @@ league = League(league_id=51591979, year=2021, espn_s2='AEBjEqbBxjZIt45ocr9eFgbp
 
 # Going to have to iterate through matchups until reaching X team name and then moving on to the next week
 
+#Returns a team's total bench points for the year
 def Team_Total_Year_Points(team_name):
 
 	total_score = 0
@@ -35,8 +36,8 @@ def Team_Total_Year_Points(team_name):
 				this_week = Total_Points_Left_On_Bench(league.box_scores(x)[y].home_lineup)
 				total_score = total_score + this_week
 				
-				print ("week: " + str(x) + " - " + str(this_week))
-				print ("total: " +  str(total_score))
+				# print ("week: " + str(x) + " - " + str(this_week))
+				# print ("total: " +  str(total_score))
 
 				continue
 
@@ -44,11 +45,20 @@ def Team_Total_Year_Points(team_name):
 				this_week = Total_Points_Left_On_Bench(league.box_scores(x)[y].away_lineup)
 				total_score = total_score + this_week
 
-				print ("week: " + str(x) + " - " + str(this_week))
-				print ("total: " +  str(total_score))
+				# print ("week: " + str(x) + " - " + str(this_week))
+				# print ("total: " +  str(total_score))
 
 				continue
 
-	return total_score
+	return float("{:.2f}".format(total_score))
 
-print (Team_Total_Year_Points("Cum Dumpsters"))
+#Returns all team's bench points for the year in a league
+def League_Bench_Points(league):
+	for t in league.teams:
+		team = t.team_name
+		print (team + ": " + str(Team_Total_Year_Points(team)))
+
+League_Bench_Points(league)
+
+
+# print ("Hollis: " + str(Team_Total_Year_Points("Cum Dumpsters")))
