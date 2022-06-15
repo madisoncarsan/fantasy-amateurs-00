@@ -11,7 +11,7 @@ from espn_api.football import BoxPlayer
 
 from Player_Points import *
 
-league = League(league_id=51591979, year=2021, espn_s2='AEBjEqbBxjZIt45ocr9eFgbp%2FBkWyQmzCIuNSsyI4jmQqhhxc2s5mnRJxHr5QOc576BaF1ULvFqeeTZoM%2FHg%2FS%2FHS1beH7XX8aP4uLisyHbr1SkANX42Es7E%2BZuq%2FXqKmSDMSVTYTMF3ctf%2FKmVMapTGJNkADWmsEoTHoIT8QTdj80aENnYeygi7DGqIDjrcCbLVfcWxUWp3jKqxQRP1744e88mki7wkLuNydGGonvYuPlrfcsDCEFY%2FVpkoq9lc%2FKm0mBdoWAiWsMeb7B3w5c25',swid='{7EDF6E52-328E-4864-9E53-6190364DDF91}')
+league = League(league_id=<your-leagueid>, year=<year>, espn_s2=your-s2',swid='{your-swid}')
 
 # for w in range(5):
 # 	print ('Week Index ' + str(w))
@@ -60,8 +60,4 @@ def League_Bench_Points(league):
 
 
 League_Bench_Points(league)
-
-
-
-# print ("Hollis: " + str(Team_Total_Year_Points("Cum Dumpsters")))
 
